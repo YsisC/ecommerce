@@ -6,16 +6,17 @@ import Link from '../../src/Link';
 
 
 interface Props {
-  products: IProduct;
+  product: IProduct;
 }
 
 export const ProductCard: FC<Props> = ( { product }) => {
 const [isHovered, setIsHovered ] = useState(false);
+const [ isImageLoaded, setIsImageLoaded] = useState(false)
 
 const productImage = useMemo( () => {
   return isHovered 
-  ? `products/${ product.images[1] }` 
-  : `products/${ product.images[0] }` 
+  ? `/products/${ product.images[1] }` 
+  : `/products/${ product.images[0] }` 
 
 }, [isHovered, product.images])
 
@@ -27,17 +28,18 @@ const productImage = useMemo( () => {
     onMouseLeave={() => setIsHovered(false)}
     >
             <Card>
-            <Link href='/product/slug' >
+            <Link href={`/product/${product.slug}`} prefetch={false}>
               <CardActionArea>
                 <CardMedia
                   component='img'
                   className='fadeIn'
                   image={ productImage }
-                  alt={product.title} />
+                  alt={product.title}
+                  onLoad={ () => setIsImageLoaded(true)} />
               </CardActionArea>
               </Link >
             </Card>
-            <Box sx={{ mt:1}} className="fadeIn"> 
+            <Box sx={{ mt:1, display: isImageLoaded ? 'block' : 'none'}} className="fadeIn"> 
             <Typography fontWeight={700}>{product.title}</Typography>
             <Typography fontWeight={700}> {`${product.price}`}</Typography>
             </Box>

@@ -15,11 +15,6 @@
     "@mui/material": "^5.13.5",
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/x-data-grid": "^6.8.0",
-    "@types/node": "20.3.1",
-    "@types/react": "18.2.12",
-    "@types/react-dom": "18.2.5",
-    "eslint": "8.43.0",
-    "eslint-config-next": "13.4.6",
     "mongoose": "^7.3.1",
     "next": "13.4.6",
     "react": "18.2.0",
@@ -27,6 +22,11 @@
     "react-hook-form": "^7.44.3",
     "react-slideshow-image": "^4.2.1",
     "styled-components": "^5.3.11",
+    "swr": "^2.2.0",
+    "@types/node": "20.3.1",
+    "@types/react": "18.2.12",
+    "eslint": "8.43.0",
+    "eslint-config-next": "^12.0.4",
     "typescript": "5.1.3"
   }
 }

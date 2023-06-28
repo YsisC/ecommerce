@@ -1,7 +1,7 @@
 import Link from '../../src/Link';
 import { ShopLayout } from '../../components/layouts';
 import { Typography, Grid, Chip } from '@mui/material'
-import { DataGrid, GridRowsProp, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import React from 'react'
 
 const columns: GridColDef[] = [
@@ -12,12 +12,11 @@ const columns: GridColDef[] = [
         headerName: 'Pagada',
         description: 'Muestra si la orden esta pagada',
         width: 200,
-        renderCell: (params: GridValueGetterParams<R, V, F>) => {
+        renderCell: (params: GridRenderCellParams<any, any, any, any>) => {
             return (
                 params.row.paid
-                    ? <Chip color='success' label='Pagada' variant='outlined'/>
-                    : <Chip color='error' label='No pagada' variant='outlined'/>
-             
+                    ? <Chip color='success' label='Pagada' variant='outlined' />
+                    : <Chip color='error' label='No pagada' variant='outlined' />
             )
         }
     },
@@ -26,13 +25,11 @@ const columns: GridColDef[] = [
         headerName: 'Ver orden',
         width: 200,
         sortable: false,
-        renderCell: (params: GridValueGetterParams) => {
+        renderCell: (params: GridRenderCellParams<any, any, any, any>) => {
             return (
-              
-                    <Link href={`/orders/${ params.row.id }`} underline='always'>
-                        Ver orden
-                    </Link>
-              
+                <Link href={`/orders/${params.row.id}`} underline='always'>
+                    Ver orden
+                </Link>
             )
         }
     }
@@ -50,7 +47,6 @@ const rows: GridRowsProp = [
     { id: 10, paid: true, fullname: 'Fernando Herrera' },
     { id: 11, paid: true, fullname: 'Fernando Herrera' },
     { id: 12, paid: true, fullname: 'Fernando Herrera' },
-
 ];
 
 const historyPage = () => {
@@ -62,12 +58,12 @@ const historyPage = () => {
                     <DataGrid
                         rows={rows}
                         columns={columns}
-                        // pageSize={10}
-                        pageSizeOptions={[10]} />
+                        pageSizeOptions={[10]}
+                    />
                 </Grid>
             </Grid>
         </ShopLayout>
     )
 }
 
-export default historyPage
+export default historyPage;

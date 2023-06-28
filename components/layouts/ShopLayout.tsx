@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import Head from 'next/head';
 
 import { Navbar, SideMenu } from '../ui';
@@ -8,7 +8,7 @@ interface Props {
     title: string;
     pageDescription: string;
     imageFullUrl?: string;
-    children: React.ReactNode
+    children: ReactNode;
 }
 
 export const ShopLayout:FC<Props> = ({ children, title, pageDescription, imageFullUrl }) => {
@@ -16,10 +16,7 @@ export const ShopLayout:FC<Props> = ({ children, title, pageDescription, imageFu
     <>
         <Head>
             <title>{ title }</title>
-
             <meta name="description" content={ pageDescription } />
-            
-            
             <meta name="og:title" content={ title } />
             <meta name="og:description" content={ pageDescription } />
 
