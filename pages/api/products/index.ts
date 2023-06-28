@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { SHOP_CONSTANTS, db } from '@/database';
-import { Product } from '@/models';
-import { IProduct } from '@/interfaces';
+import { db, SHOP_CONSTANTS } from '../../../database'
+import { Product } from '../../../models'
+import { IProduct } from '../../../interfaces/products';
 
 
-type Data = {
-    message: string
-}
-    | IProduct[];
+type Data = 
+| { message: string }
+| IProduct[]
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 

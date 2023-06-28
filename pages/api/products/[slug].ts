@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {  db } from '@/database';
-import { Product } from '@/models';
-import { IProduct } from '@/interfaces';
+import { db } from '../../../database';
+import { Product } from '../../../models';
+import { IProduct } from '../../../interfaces';
 
 
-type Data = { message: string }
-    | IProduct;
-
+type Data = 
+| { message: string }
+| IProduct;
     
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -39,6 +39,6 @@ const getProductBySlug = async (req: NextApiRequest, res: NextApiResponse<Data>)
         })
     }
 
-    return res.status(200).json(product);
+    return res.json( product );
 
 }

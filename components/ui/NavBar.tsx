@@ -20,12 +20,12 @@ export const Navbar = () => {
     return (
         <AppBar>
             <Toolbar>
-                {/* <NextLink href='/' passHref> */}
-                <Link href='/' display='flex' alignItems='center'>
+                <NextLink href='/' passHref>
+                <Link display='flex' alignItems='center'>
                     <Typography variant='h6'>Teslo |</Typography>
                     <Typography sx={{ ml: 0.5 }}>Shop</Typography>
                 </Link>
-                {/* </NextLink> */}
+                </NextLink>
 
                 <Box flex={1} />
 

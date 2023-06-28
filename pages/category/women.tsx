@@ -7,6 +7,7 @@ import { ProductList } from '../../components/products';
 import { useProducts } from '../../hooks';
 
 import { FullScreenLoading } from '../../components/ui';
+import { useEffect } from 'react';
 
 
 const WomenPage: NextPage = () => {
@@ -14,7 +15,11 @@ const WomenPage: NextPage = () => {
 
   const { products, isLoading } = useProducts('/products?gender=women');
 
-
+ useEffect(() => {
+    // Code to run after products or isLoading changes
+    // You can perform any side effects or data fetching here
+  }, [products, isLoading]);
+  
   return (
     <ShopLayout
       title={'Teslo-Shop - Women'}
