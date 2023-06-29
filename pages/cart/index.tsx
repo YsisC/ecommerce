@@ -1,6 +1,6 @@
 import { Typography, Grid, CardContent, Divider, Button, Card, Box } from '@mui/material';
 import { ShopLayout } from '../../components/layouts/ShopLayout';
-import { CartList, OrderSummary } from '../../components/cart'
+import { CartList, OrdenSummary } from '../../components/cart'
 
 const CartPage = () => {
     return (
@@ -15,7 +15,7 @@ const CartPage = () => {
                         <CardContent>
                             <Typography variant='h2'> Orden</Typography>
                             <Divider sx={{ my: 1 }} />
-                            <OrderSummary />
+                            <OrdenSummary />
                             <Box sx={{ mt: 3 }}>
                                 <Button color="secondary" className='circular-btn' fullWidth >
                                     Checkout
