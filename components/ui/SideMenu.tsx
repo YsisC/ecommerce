@@ -1,29 +1,33 @@
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
 import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, ConfirmationNumberOutlined, EscalatorWarningOutlined, FemaleOutlined, LoginOutlined, MaleOutlined, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material"
 
 import { UiContext } from '../../context/ui/UiContext';
 import { useRouter } from 'next/router';
+import { isNull } from 'cypress/types/lodash';
 
 
 export const SideMenu = () => {
-    const { isMenuOpen, toggleSideMenu } = useContext( UiContext );
+    const { isMenuOpen, toggleSideMenu } = useContext(UiContext);
     const router = useRouter();
 
-    console.log(isMenuOpen);
-    
     const [searchTerm, setSearchTerm] = useState('');
 
     const onSearchTerm = () => {
-        if( searchTerm.trim().length === 0 ) return;
-        navigateTo(`/search/${ searchTerm }`);
+        if (searchTerm.trim().length === 0) return;
+        navigateTo(`/search/${searchTerm}`);
     }
 
-    
-    const navigateTo = ( url: string ) => {
+
+    const navigateTo = (url: string) => {
         toggleSideMenu();
         router.push(url);
+    }
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onSearchTerm();
+        }
     }
 
     return (
@@ -39,13 +43,16 @@ export const SideMenu = () => {
 
                     <ListItem>
                         <Input
-                         autoFocus
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyPress={ handleKeyPress }
+                            autoFocus
                             type='text'
                             placeholder="Buscar..."
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
-                                       arial-label="toogle password visibility"
+                                        onClick={onSearchTerm}
                                     >
                                         <SearchOutlined />
                                     </IconButton>
@@ -55,52 +62,52 @@ export const SideMenu = () => {
                     </ListItem>
 
                     <ListItem button>
-                    <ListItemIcon>
-                        <AccountCircleOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Perfil'} />
-                </ListItem>
+                        <ListItemIcon>
+                            <AccountCircleOutlined />
+                        </ListItemIcon>
+                        <ListItemText primary={'Perfil'} />
+                    </ListItem>
 
-                <ListItem button>
-                    <ListItemIcon>
-                        <ConfirmationNumberOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Mis Ordenes'} />
-                </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <ConfirmationNumberOutlined />
+                        </ListItemIcon>
+                        <ListItemText primary={'Mis Ordenes'} />
+                    </ListItem>
 
-                <ListItem 
-                    button 
-                    sx={{ display: { xs: '', sm: 'none' } }} 
-                    onClick={ () => navigateTo('/category/men') }
-                >
-                    <ListItemIcon>
-                        <MaleOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Hombres'} />
-                </ListItem>
+                    <ListItem
+                        button
+                        sx={{ display: { xs: '', sm: 'none' } }}
+                        onClick={() => navigateTo('/category/men')}
+                    >
+                        <ListItemIcon>
+                            <MaleOutlined />
+                        </ListItemIcon>
+                        <ListItemText primary={'Hombres'} />
+                    </ListItem>
 
-                <ListItem
-                    button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
-                    onClick={ () => navigateTo('/category/women') }
-                >
-                    <ListItemIcon>
-                        <FemaleOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Mujeres'} />
-                </ListItem>
+                    <ListItem
+                        button
+                        sx={{ display: { xs: '', sm: 'none' } }}
+                        onClick={() => navigateTo('/category/women')}
+                    >
+                        <ListItemIcon>
+                            <FemaleOutlined />
+                        </ListItemIcon>
+                        <ListItemText primary={'Mujeres'} />
+                    </ListItem>
 
-                
-                    <ListItem 
-                    button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
-                    onClick={ () => navigateTo('/category/kid') }
-                >
-                    <ListItemIcon>
-                        <EscalatorWarningOutlined/>
-                    </ListItemIcon>
-                    <ListItemText primary={'Niños'} />
-                </ListItem>
+
+                    <ListItem
+                        button
+                        sx={{ display: { xs: '', sm: 'none' } }}
+                        onClick={() => navigateTo('/category/kid')}
+                    >
+                        <ListItemIcon>
+                            <EscalatorWarningOutlined />
+                        </ListItemIcon>
+                        <ListItemText primary={'Niños'} />
+                    </ListItem>
 
                     <ListItem button>
                         <ListItemIcon>
