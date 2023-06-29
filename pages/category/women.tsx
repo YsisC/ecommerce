@@ -16,18 +16,24 @@ const WomenPage: NextPage = () => {
 
 
   return (
-    <ShopLayout title={'Teslo-Shop - Women'} pageDescription={'Encuentra los mejores productos de Teslo para ellas'}>
+    <ShopLayout
+      title={'Teslo-Shop - Women'}
+      pageDescription={'Encuentra los mejores productos de Teslo para ellas'}
+    >
+      <>
         <Typography variant='h1' component='h1'>Mujeres</Typography>
         <Typography variant='h2' sx={{ mb: 1 }}>Productos para ellas</Typography>
 
         {
           isLoading
             ? <FullScreenLoading />
-            : <ProductList products={ products } />
+            : <ProductList products={products} />
         }
 
-        
-    
+
+
+      </>
+
 
     </ShopLayout>
   )
