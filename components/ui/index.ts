@@ -2,5 +2,5 @@
 
 export * from './FullScreenLoading';
 export * from './ItemCounter';
-export * from './Navbar';
+export * from './NavBar';
 export * from './SideMenu';
