@@ -8,13 +8,9 @@ export interface UiState {
 
 const UI_INITIAL_STATE: UiState = {
     isMenuOpen: false,
-   
 }
-interface UiProviderProps {
-    children: ReactNode;
-  }
-  
-  export const UiProvider: FC<UiProviderProps> = ({ children }) => {
+
+export const UiProvider:FC<{ children: ReactNode }> = ({ children }) => {
 
     const [state, dispatch] = useReducer( uiReducer , UI_INITIAL_STATE );
 

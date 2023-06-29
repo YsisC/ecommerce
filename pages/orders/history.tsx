@@ -1,26 +1,22 @@
-import NextLink from 'next/link';
-
-import { Typography, Grid, Chip, Link } from '@mui/material';
-import { DataGrid, GridColDef, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
-
+import Link from '../../src/Link';
 import { ShopLayout } from '../../components/layouts';
-
-
+import { Typography, Grid, Chip } from '@mui/material'
+import { DataGrid, GridRowsProp, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import React from 'react'
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'fullname', headerName: 'Nombre Completo', width: 300 },
-
+    { field: 'fullname', headerName: 'Nombre completo', width: 300 },
     {
         field: 'paid',
         headerName: 'Pagada',
-        description: 'Muestra información si está pagada la orden o no',
+        description: 'Muestra si la orden esta pagada',
         width: 200,
         renderCell: (params: GridRenderCellParams<any, any, any, any>) => {
             return (
                 params.row.paid
-                    ? <Chip color="success" label="Pagada" variant='outlined' />
-                    : <Chip color="error" label="No pagada" variant='outlined' />
+                    ? <Chip color='success' label='Pagada' variant='outlined' />
+                    : <Chip color='error' label='No pagada' variant='outlined' />
             )
         }
     },
@@ -31,47 +27,43 @@ const columns: GridColDef[] = [
         sortable: false,
         renderCell: (params: GridRenderCellParams<any, any, any, any>) => {
             return (
-               <NextLink href={`/orders/${ params.row.id }`} passHref>
-                    <Link underline='always'>
-                        Ver orden
-                    </Link>
-               </NextLink>
+                <Link href={`/orders/${params.row.id}`} underline='always'>
+                    Ver orden
+                </Link>
             )
         }
     }
 ];
 
-
-const rows = [
+const rows: GridRowsProp = [
     { id: 1, paid: true, fullname: 'Fernando Herrera' },
-    { id: 2, paid: false, fullname: 'Melissa Flores' },
-    { id: 3, paid: true, fullname: 'Hernando Vallejo' },
-    { id: 4, paid: false, fullname: 'Emin Reyes' },
-    { id: 5, paid: false, fullname: 'Eduardo Rios' },
-    { id: 6, paid: true, fullname: 'Natalia Herrera' },
-]
+    { id: 2, paid: true, fullname: 'Maria Herrera' },
+    { id: 3, paid: false, fullname: 'Juan Herrera' },
+    { id: 4, paid: true, fullname: 'Caro Herrera' },
+    { id: 5, paid: true, fullname: 'Luis Herrera' },
+    { id: 6, paid: false, fullname: 'Fernando Herrera' },
+    { id: 7, paid: true, fullname: 'Fernando Herrera' },
+    { id: 9, paid: true, fullname: 'Fernando Herrera' },
+    { id: 10, paid: true, fullname: 'Fernando Herrera' },
+    { id: 11, paid: true, fullname: 'Fernando Herrera' },
+    { id: 12, paid: true, fullname: 'Fernando Herrera' },
+];
 
-
-const HistoryPage = () => {
-  return (
-    <ShopLayout title={'Historial de ordenes'} pageDescription={'Historial de ordenes del cliente'}>
-        <Typography variant='h1' component='h1'>Historial de ordenes</Typography>
-
-
-        <Grid container>
-            <Grid item xs={12} sx={{ height:650, width: '100%' }}>
-                <DataGrid 
-                    rows={ rows }
-                    columns={ columns }
-                    pageSizeOptions={[10]}
-                    
-                />
-
+const historyPage = () => {
+    return (
+        <ShopLayout title='Historial de ordenes' pageDescription='Historial de ordenes del cliente'>
+            <Typography variant='h1' component={'h1'}> Historial de ordenes</Typography>
+            <Grid container>
+                <Grid item xs={12} sx={{ height: 650, width: '100%' }}>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        pageSizeOptions={[10]}
+                    />
+                </Grid>
             </Grid>
-        </Grid>
-
-    </ShopLayout>
-  )
+        </ShopLayout>
+    )
 }
 
-export default HistoryPage
+export default historyPage;

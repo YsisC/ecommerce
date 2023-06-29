@@ -1,3 +1,4 @@
+
 import useSWR, { SWRConfiguration } from 'swr';
 import { IProduct } from '../interfaces';
 
