@@ -5,7 +5,7 @@ import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, Confirmati
 
 import { UiContext } from '../../context/ui/UiContext';
 import { useRouter } from 'next/router';
-import { isNull } from 'cypress/types/lodash';
+
 
 
 export const SideMenu = () => {
