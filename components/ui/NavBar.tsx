@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
-import Link from '../../src/Link'
 import { useRouter } from 'next/router';
 
-import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, , Toolbar } from '@mui/material';
+import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Toolbar } from '@mui/material';
 import { ClearAllOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { UiContext } from '../../context'
 
+import Link from '../../src/Link'
 
 
 export const Navbar = () => {
