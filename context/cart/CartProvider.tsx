@@ -1,17 +1,21 @@
-import { ICartProduct } from "@/interfaces/cart";
-import React, { FC, useReducer , ReactNode} from "react";
+import React, { FC, useReducer, ReactNode } from "react";
 import { CartContext, cartReducer } from "./";
-
+import { ICartProduct } from "@/interfaces/cart";
 
 
 
 export interface CartState {
     cart: ICartProduct[]
 }
-const CART_INITIAL_STATE: CartState = {
-    cart: []
+interface CartProviderProps {
+    children: ReactNode;
 }
-export const CartProvider: FC = ({ children }) => {
+
+const CART_INITIAL_STATE: CartState = {
+    cart: [],
+};
+
+export const CartProvider: FC<CartProviderProps> = ({ children }) => {
 
     const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
 
