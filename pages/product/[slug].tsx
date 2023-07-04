@@ -2,7 +2,7 @@ import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import { NextPage, GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 
 import { ShopLayout } from '../../components/layouts';
-import { ProductSlideshow, SizeSelector, } from '../../components/products'; 
+import { ProductSlideshow, SizeSelector, } from '../../components/products';
 import { ItemCounter } from '../../components/ui/ItemCounter';
 
 import { dbProducts } from '../../database';
@@ -16,7 +16,7 @@ interface Props {
 
 
 
-const ProductPage:NextPage<Props> = ({ product }) => {
+const ProductPage: NextPage<Props> = ({ product }) => {
 
 
   // const router = useRouter();
@@ -46,18 +46,28 @@ const ProductPage:NextPage<Props> = ({ product }) => {
               <Typography variant='subtitle2'>Cantidad</Typography>
               <ItemCounter />
               <SizeSelector
-                selectedSize={ product.sizes[0] } 
-                sizes={ product.sizes } 
-               /> 
+                selectedSize={product.sizes[0]}
+                sizes={product.sizes}
+              />
             </Box>
 
 
-            {/* Agregar al carrito */}
-            <Button color="secondary" className='circular-btn'>
-              Agregar al carrito
-            </Button>
 
-            {/* <Chip label="No hay disponibles" color="error" variant='outlined' /> */}
+
+            {/* Agregar al carrito */}
+            {
+              (product.inStock > 0)
+                ? (
+
+                  <Button color="secondary" className='circular-btn'>
+                    Agregar al carrito
+                  </Button>
+                )
+                :
+                (
+                  <Chip label="No hay disponibles" color="error" variant='outlined' />
+                )
+            }
 
             {/* Descripción */}
             <Box sx={{ mt: 3 }}>
@@ -98,12 +108,12 @@ const ProductPage:NextPage<Props> = ({ product }) => {
 
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-  
+
   const productSlugs = await dbProducts.getAllProductSlugs();
 
-  
+
   return {
-    paths: productSlugs.map( ({ slug }) => ({
+    paths: productSlugs.map(({ slug }) => ({
       params: {
         slug
       }
@@ -119,21 +129,21 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 //- The page must be pre-rendered (for SEO) and be very fast — getStaticProps generates HTML and JSON files, both of which can be cached by a CDN for performance.
 
 
-export const getStaticProps: GetStaticProps = async ({ params })  => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const { slug = '' } = params as { slug: string };
-  const product = await dbProducts.getProductBySlug( slug)
+  const product = await dbProducts.getProductBySlug(slug)
 
-if(!product) {
-  return {
-    redirect: {
-      destination:'/',
-      permanent: false
+  if (!product) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
     }
   }
-}
 
-    return {
+  return {
     props: {
       product
     },
