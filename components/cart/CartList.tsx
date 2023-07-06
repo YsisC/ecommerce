@@ -1,32 +1,29 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { initialData } from '../../database/products';
 import { Typography, CardActionArea, Grid, CardMedia, Box, Button } from '@mui/material';
 import Link from '../../src/Link';
 import { ItemCounter } from '../ui';
+import { CartContext } from '@/context/cart';
 
 
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-]
+
 
 interface Props {
   editable?: boolean;
 }
 export const CartList: FC<Props> = ({ editable = false }) => {
-
+  const { cart } = useContext(CartContext)
 
   return (
     <>
       {
-        productsInCart.map(product => (
+        cart.map(product => (
           <Grid container spacing={2} key={product.slug}>
             <Grid item xs={3}>
               <Link href="/product/slug">
                 <CardActionArea>
                   <CardMedia
-                    image={`/products/${product.images[0]}`}
+                    image={`/products/${product.image}`}
                     component='img'
                     sx={{ borderRadius: '5px' }} >
 
@@ -40,10 +37,17 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                 <Typography variant='body1'>Talla:  <strong> M </strong></Typography>
                 {
                   editable
-                    ? <ItemCounter />
-                    : <Typography variant='h5'>3 item</Typography>
+                    ? (
+                      <ItemCounter
+                        currentValue={product.quantity}
+                        maxValue={10}
+                        updatedQuantity={() => { }}
+                      />
+                    )
+                    : (
+                      <Typography variant='h5'>{product.quantity} {product.quantity > 1 ? 'productos' : 'producto'}</Typography>
+                    )
                 }
-
               </Box>
             </Grid>
             <Grid item xs={2} display='flex' alignItems={'center'} flexDirection={'column'}>
@@ -65,3 +69,5 @@ export const CartList: FC<Props> = ({ editable = false }) => {
     </>
   )
 }
+
+
