@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Toolbar } from '@mui/material';
 import { ClearAllOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import { UiContext } from '../../context'
+import { UiContext, CartContext } from '../../context'
 
 import Link from '../../src/Link'
 
 
 export const Navbar = () => {
-
+    const { numberOfItems } = useContext(CartContext)
     const { asPath, push } = useRouter();
     const { toggleSideMenu } = useContext(UiContext);
 
@@ -26,7 +26,14 @@ export const Navbar = () => {
         if (e.key === 'Enter') {
             onSearchTerm();
         }
-    }
+    } 
+    const handleSearchIconClick = () => {
+        setIsSearchVisible(true);
+      };
+
+      const handleClearSearchClick = () => {
+        setIsSearchVisible(false);
+      };
 
     return (
         <AppBar>
@@ -77,7 +84,7 @@ export const Navbar = () => {
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
-                                            onClick={() => setIsSearchVisible(false)}
+                                            onClick={handleClearSearchClick}
                                         >
                                             <ClearAllOutlined />
                                         </IconButton>
@@ -88,7 +95,7 @@ export const Navbar = () => {
                         :
                         (
                             <IconButton
-                                onClick={() => setIsSearchVisible(true)}
+                                onClick={handleSearchIconClick}
                                 className='fadeIn'
                                 sx={{ display: { xs: 'none', sm: 'flex' } }}
                             >
@@ -107,7 +114,7 @@ export const Navbar = () => {
 
                 <Link href="/cart">
                     <IconButton>
-                        <Badge badgeContent={2} color="secondary">
+                        <Badge badgeContent={numberOfItems > 9 ? '+9' : numberOfItems} color="secondary">
                             <ShoppingCartOutlined />
                         </Badge>
                     </IconButton>

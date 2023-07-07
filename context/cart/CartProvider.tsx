@@ -9,6 +9,9 @@ import { ICartProduct } from "@/interfaces/cart";
 export interface CartState {
     cart: ICartProduct[],
     numberOfItems: number;
+    subTotal: number;
+    tax: number;
+    total: number;
 }
 interface CartProviderProps {
     children: ReactNode;
@@ -17,6 +20,10 @@ interface CartProviderProps {
 const CART_INITIAL_STATE: CartState = {
     cart: [],
     numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
+
 };
 
 export const CartProvider: FC<CartProviderProps> = ({ children }) => {
@@ -35,7 +42,20 @@ export const CartProvider: FC<CartProviderProps> = ({ children }) => {
 
     useEffect(() => {
         Cookie.set('cart', JSON.stringify(state.cart))
+    }, [state.cart])
 
+    useEffect(() => {
+        const numberOfItems = state.cart.reduce((prev, current) => current.quantity + prev, 0)
+        const subTotal = state.cart.reduce((prev, current) => current.quantity * current.price + prev, 0)
+        const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
+        const orderSummary = {
+            numberOfItems,
+            subTotal,
+            tax: subTotal * taxRate,
+            total: subTotal * (taxRate + 1)
+
+        }
+        dispatch({type: '[Cart] - Update order summary', payload: orderSummary})
 
     }, [state.cart])
 
@@ -67,14 +87,18 @@ export const CartProvider: FC<CartProviderProps> = ({ children }) => {
         dispatch({ type: '[Cart] - Update products in cart', payload: updatedProducts });
     }
 
-    // const updateCartQuantity = (product: ICartProduct) => {
-    //     dispatch({ type: '[Cart] - Change cart quantity', payload: product });
-    // }
+    const updateCartQuantity = (product: ICartProduct) => {
+        dispatch({ type: '[Cart] - Change cart quantity', payload: product });
+    }
+    const removeCartProduct = (product: ICartProduct) => {
+        dispatch({ type: '[Cart] - Remove product in cart', payload: product });
+    }
     return (
         <CartContext.Provider value={{
             ...state,
             addProductToCart,
-            // updateCartQuantity,
+            updateCartQuantity,
+            removeCartProduct,
         }}>
             {children}
         </CartContext.Provider>
