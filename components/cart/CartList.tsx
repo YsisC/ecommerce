@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { initialData } from '../../database/products';
+
 import { Typography, CardActionArea, Grid, CardMedia, Box, Button } from '@mui/material';
 import Link from '../../src/Link';
 
