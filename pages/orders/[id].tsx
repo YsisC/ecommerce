@@ -1,6 +1,6 @@
 import { Typography, Grid, CardContent, Divider, Card, Box, Chip } from '@mui/material';
 import { ShopLayout } from '../../components/layouts/ShopLayout';
-import { CartList, OrdenSummary } from '../../components/cart'
+import { CartList, OrderSummary } from '../../components/cart'
 import Link from '../../src/Link'
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 
@@ -50,7 +50,7 @@ const OrderPage = () => {
                                     Editar
                                 </Link>
                             </Box>
-                            <OrdenSummary />
+                            <OrderSummary />
                             <Box sx={{ mt: 3 }}>
                                 {/*  */}
                                 <h1>Pagar</h1>

@@ -1,9 +1,9 @@
-import { FC, useContext } from 'react';
+import {  useContext } from 'react';
 import { Grid, Typography } from '@mui/material'
 import { CartContext } from '../../context/cart/CartContext';
 import { currency } from '../../utils';
 
-export const OrdenSummary = () => {
+export const OrderSummary = () => {
 
     const { numberOfItems, subTotal, total, tax } = useContext( CartContext );
 
