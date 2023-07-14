@@ -23,7 +23,7 @@ const CartPage = () => {
       router.replace("cart/empty");
     }
   }, [isLoaded, cart, router]);
-  
+
   if ( !isLoaded || cart.length === 0 ) {
     return (<></>);
 }

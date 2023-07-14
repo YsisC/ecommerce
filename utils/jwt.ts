@@ -29,10 +29,10 @@ export const isValidToken = ( token: string ):Promise<string> => {
     return new Promise( (resolve, reject) => {
 
         try {
-            jwt.verify(token, process.env.JWT_SECRET_SEED | "", (err, payload) => {
+            jwt.verify(token, process.env.JWT_SECRET_SEED || "", (err, payload) => {
                 if (err) return reject('JWT no es valido');
 
-                const {id} = payload as {_id:string};
+                const {_id} = payload as {_id:string};
 
                 resolve(_id)
             })
