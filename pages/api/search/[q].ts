@@ -23,7 +23,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 }
 
 
-const searchProducts = async (req: NextApiRequest, res: NextApiResponse) => {
+const searchProducts = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     let { q = '' } = req.query;
 
@@ -32,7 +32,8 @@ const searchProducts = async (req: NextApiRequest, res: NextApiResponse) => {
             message: 'Debe especificar el query de busqueda'
         });
     }
-    q = q.toString().toLocaleLowerCase();
+
+    q = q.toString().toLowerCase();
 
     await db.connect();
     const products = await Product.find({
