@@ -1,14 +1,31 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse, type NextRequest } from "next/server";
 import { jwt } from '../../utils';
 
-export default async function middleware(req: NextApiRequest, res: NextApiResponse) {
-  const { token = '' } = req.cookies;
+  export async function middleware(req: NextRequest) {
+    const previousPage = req.nextUrl.pathname;
+   
+    if (previousPage.startsWith("/checkout")) {
+      const token = req.cookies.get("token")?.value;
 
+      console.log(token) 
+      if (!token) {
+        return NextResponse.redirect(
+          new URL(`/auth/login?p=${previousPage}`, req.url)
+        );
+      }
+    
   try {
-    await jwt.isValidToken(token);
-    return res.end();
+    await jwt.isValidToken(
+      token
+      
+      );
+      return NextResponse.next();
   } catch (error) {
-    const requestedPage = req.url;
-    return res.redirect(`/auth/login?p=${requestedPage}`);
+    
+    return NextResponse.redirect(`/auth/login?p=${previousPage}`);
   }
 }
+  }
+export const config = {
+  matcher: ["/checkout/:path*"],
+};
