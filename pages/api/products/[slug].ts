@@ -24,7 +24,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 }
 
-const getProductBySlug = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+async function getProductBySlug(req: NextApiRequest, res: NextApiResponse<Data>) {
 
 
 
@@ -33,6 +33,7 @@ const getProductBySlug = async (req: NextApiRequest, res: NextApiResponse<Data>)
     const product = await Product.findOne( { slug } ).lean();
 
     await db.disconnect();
+    
     if( !product ) {
         return res.status(404).json({
             message: 'Producto no encontrado'
