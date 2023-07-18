@@ -1,5 +1,5 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { NextApiRequest } from "next";
+
+import NextAuth, { NextAuthOptions, RequestInternal } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { Session } from "next-auth";
@@ -29,16 +29,14 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Contraseña",
         },
       },
-      async authorize(credentials: Record<"email" | "password", string> | undefined,
-      req: Pick<NextApiRequest, "body" | "query" | "headers" | "method">
-    )   {
+      async authorize(credentials: Record<"email" | "password", string> | undefined, req: Pick<RequestInternal, "body" | "query" | "headers" | "method">)  {
         console.log({ credentials });
         // return { name: 'Juan', correo: 'juan@google.com', role: 'admin' };
 
         return await dbUsers.checkUserEmailPassword(
           credentials!.email,
           credentials!.password
-        );
+        ) as any;
       },
     }),
     GithubProvider({
