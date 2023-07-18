@@ -82,7 +82,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token, user }) {
       console.log({ session, token, user });
       const customSession: CustomSession = session;
-      customSession.accessToken = token?.accessToken;
+      customSession.accessToken = token?.accessToken as string | undefined;;
       customSession.user = token.user as any;
 
       return customSession;
