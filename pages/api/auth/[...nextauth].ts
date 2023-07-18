@@ -1,10 +1,15 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextApiRequest } from "next";
 import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
+import { Session } from "next-auth";
 
 
 import { dbUsers } from "../../../database";
 
+interface CustomSession extends Session {
+  accessToken?: string;
+}
 // https://next-auth.js.org/configuration/options
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -24,7 +29,9 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Contraseña",
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials: Record<"email" | "password", string> | undefined,
+      req: Pick<NextApiRequest, "body" | "query" | "headers" | "method">
+    )   {
         console.log({ credentials });
         // return { name: 'Juan', correo: 'juan@google.com', role: 'admin' };
 
@@ -35,8 +42,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
   pages: {
@@ -75,10 +82,12 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token, user }) {
-      session.accessToken = token.accessToken;
-      session.user = token.user as any;
+      console.log({ session, token, user });
+      const customSession: CustomSession = session;
+      customSession.accessToken = token?.accessToken;
+      customSession.user = token.user as any;
 
-      return session;
+      return customSession;
     },
   },
 };
