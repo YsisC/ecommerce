@@ -4,6 +4,7 @@ export interface  IUser {
     email:string;
     password?:string;
     role: string;
+    // address?: string; // Agregar esta propiedad
    
     createdAt?: string;
     updatedAt?: string;

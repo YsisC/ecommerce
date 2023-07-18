@@ -1,24 +1,27 @@
-import { useState, useContext } from "react";
+import { useState,  useEffect } from "react";
 import Link from "@/src/Link";
+import { GetServerSideProps } from "next";
+import { getSession, signIn, getProviders } from "next-auth/react";
 
-import { Box, Button, Grid, TextField, Typography, Chip } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography, Chip , Divider} from "@mui/material";
 import { ErrorOutline } from "@mui/icons-material";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-import { AuthContext } from "../../context";
+
 import { AuthLayout } from "../../components/layouts";
 import { validations } from "../../utils";
 import { useRouter } from "next/router";
-import { tesloApi } from "../../api";
+
 
 type FormData = {
   email: string;
   password: string;
 };
 
+
 const LoginPage = () => {
   const router = useRouter();
-  const { loginUser } = useContext(AuthContext);
+  // const { loginUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -26,20 +29,38 @@ const LoginPage = () => {
   } = useForm<FormData>();
   const [showError, setShowError] = useState(false);
 
+  const [providers, setProviders] = useState<any>({});
+
+  useEffect(() => {
+    getProviders().then( prov => {
+      console.log({prov});
+      setProviders(prov)
+    })
+  }, [])
+
   const onLoginUser = async ({ email, password }: FormData) => {
+    
     setShowError(false);
 
-    const isValidLogin = await loginUser(email, password);
+  //   const isValidLogin = await loginUser(email, password);
 
-    if (!isValidLogin) {
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
+  //   if (!isValidLogin) {
+  //     setShowError(true);
+  //     setTimeout(() => setShowError(false), 3000);
+  //     return;
+  //   }
 
-   // Todo: navegar a la pantalla que el usuario estaba
-   const destination = router.query.p?.toString() || '/';
-   router.replace(destination);
+  //  // Todo: navegar a la pantalla que el usuario estaba
+  //  const destination = router.query.p?.toString() || '/';
+  //  router.replace(destination);
+
+  const isValidLogin = await signIn('credentials', {email, password });
+  if (!isValidLogin) {
+        setShowError(true);
+        setTimeout(() => setShowError(false), 3000);
+        return;
+      }
+
   };
 
   return (
@@ -103,6 +124,30 @@ const LoginPage = () => {
                 ¿No tienes cuenta?
               </Link>
             </Grid>
+            <Grid item xs={12} display='flex' flexDirection='column' justifyContent='end'>
+                            <Divider sx={{ width: '100%', mb: 2 }} />
+                            {
+                                Object.values( providers ).map(( provider: any ) => {
+                                    
+                                    if ( provider.id === 'credentials' ) return (<div key="credentials"></div>);
+
+                                    return (
+                                        <Button
+                                            key={ provider.id }
+                                            variant="outlined"
+                                            fullWidth
+                                            color="primary"
+                                            sx={{ mb: 1 }}
+                                            onClick={ () => signIn( provider.id ) }
+                                        >
+                                            { provider.name }
+                                        </Button>
+                                    )
+
+                                })
+                            }
+
+                        </Grid>
           </Grid>
         </Box>
       </form>
@@ -110,4 +155,25 @@ const LoginPage = () => {
   );
 };
 
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+  
+  const session = await getSession({req});
+
+  const {  p = '/'} = query;
+  
+  if (session) {
+    return {
+      redirect: {
+        destination: p.toString(),
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {
+      session 
+    }
+  }
+}
 export default LoginPage;
