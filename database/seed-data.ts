@@ -28,7 +28,7 @@ interface SeedData {
     products: SeedProduct[],
 }
 
-
+//coment
 
 export const initialData: SeedData = {
     users: [
