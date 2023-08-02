@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   Typography,
@@ -29,6 +29,7 @@ type FormData = {
 };
 
 const getAddressFromCookies = (): FormData => {
+ 
   return {
     firstName: Cookies.get("firstName") || "",
     lastName: Cookies.get("lastName") || "",
@@ -46,13 +47,24 @@ const AddressPage = () => {
   const router = useRouter();
   const { updateAddress } = useContext(CartContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    defaultValues: getAddressFromCookies(),
-  });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+    defaultValues: {
+         firstName: '',
+         lastName: '',
+         address: '',
+         address2: '',
+         zip: '',
+         city: '',
+         country: countries[0].code,
+         phone: '',
+    } 
+ });
+
+  useEffect(() => {
+    reset(getAddressFromCookies() );
+
+}, [reset]);
+
 
   const onSubmitAddress = async (data: FormData) => {
     updateAddress(data);
@@ -143,7 +155,7 @@ const AddressPage = () => {
                 select
                 variant="filled"
                 label="Pais"
-                defaultValue={Cookies.get("country") || countries[0].code}
+                defaultValue={"country" || countries[0].name }
                 {...register("country", {
                   required: "Este campo es requerido",
                 })}
@@ -181,31 +193,6 @@ const AddressPage = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-//   const { token = "" } = req.cookies;
-//   let userId = "";
-//   let isValidToken = false;
 
-//   try {
-//     await jwt.isValidToken(token);
-//     isValidToken = true;
-//   } catch (error) {
-//     isValidToken = false;
-//   }
-
-//   if( !isValidToken) {
-//     return {
-//         redirect: {
-//             destination: '/auth/login?p=ckeckout/address',
-//             permanent: false,
-//         }
-//     }
-//   }
-//   return {
-//     props: {
-
-//     },
-//   };
-// };
 
 export default AddressPage;

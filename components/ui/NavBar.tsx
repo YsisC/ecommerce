@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Toolbar } from '@mui/material';
 import { ClearAllOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
+
 import { UiContext, CartContext } from '../../context'
 
 import Link from '../../src/Link'

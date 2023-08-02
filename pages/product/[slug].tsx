@@ -16,6 +16,8 @@ import { ICartProduct, IProduct, ISize } from '../../interfaces';
 
 
 
+
+
 interface Props {
   product: IProduct
 }
@@ -23,6 +25,8 @@ interface Props {
 
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+
+ 
 
   const router = useRouter();
   const { addProductToCart } = useContext(CartContext)
@@ -35,7 +39,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     slug: product.slug,
     title: product.title,
     gender: product.gender,
-    quantity: 3,
+    quantity: 1,
   })
 
   const selectedSize = (size: ISize) => {
@@ -59,7 +63,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
     addProductToCart(tempCartProduct);
     router.push('/cart');
   }
-
+  console.log("que ingresa",product)
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
 
